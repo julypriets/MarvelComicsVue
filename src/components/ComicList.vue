@@ -45,7 +45,7 @@ export default {
   @import "@/assets/global.scss";
 
   .comic-list {
-    margin: 16rem auto 0 auto;
+    margin: 15rem auto 0 auto;
     display: flex;
     flex-wrap: wrap;
     padding: 0 7rem;
