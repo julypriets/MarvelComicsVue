@@ -13,7 +13,6 @@
 
 <script>
 import Creator from "@/components/Creator.vue";
-import axios from "axios";
 
 export default {
   name: "Creators",
