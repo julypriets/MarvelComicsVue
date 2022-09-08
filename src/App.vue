@@ -1,38 +1,3 @@
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import axios from 'axios'
-
-const API_URL = "https://gateway.marvel.com:443/v1/public/comics?format=comic&formatType=comic&orderBy=title&apikey=7cd30d3697116382070d9597a4e7efd2";
-
-export default {
-  data: () => ({
-    result: null
-  }),
-
-  created() {
-    // fetch on init
-    this.fetchData()
-  },
-
-  methods: {
-    async fetchData() {
-      const config = {
-        headers:{
-          ts: "marvel",
-          apikey: "7cd30d3697116382070d9597a4e7efd2",
-          hash: "9ce76949b277621ebd38b71889f6f53e"
-        }
-      };
-
-      this.result = await axios.get(
-          `${API_URL}&ts=${config.headers.ts}&hash=${config.headers.hash}`);
-      console.log(this.result);
-    }
-  }
-}
-</script>
-
 <template>
   <div class="header">
     <img src="https://logorealm.com/wp-content/uploads/2016/07/Marvel-Logo.png" alt="Marvel logo" class="header__logo">
@@ -45,51 +10,49 @@ export default {
     <p class="header__subheading">Find your favorites among thousands of stories</p>
     <input type="text" placeholder="Search" class="header__search">
   </div>
-  <div class="list">
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-    <div class="list__comic">
-      <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/e0/4bc682ece6395.jpg" alt="Comic name"
-           class="list__comic-image">
-      <p class="list__comic-title">Official Handbook of the Marvel Universe (2004) #9 (THE WOMEN OF MARVEL)</p>
-      <p class="list__comic-year">2015</p>
-    </div>
-  </div>
+  <ComicList
+      :comics="comics"
+  />
 </template>
+
+<script>
+import ComicList from './components/ComicList.vue'
+import axios from 'axios'
+
+const API_URL = "https://gateway.marvel.com:443/v1/public/comics?format=comic&formatType=comic&orderBy=title&apikey=7cd30d3697116382070d9597a4e7efd2";
+
+export default {
+  components: {
+    ComicList
+  },
+  data: () => ({
+    comics: null
+  }),
+  created() {
+    // fetch on init
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      const config = {
+        headers:{
+          ts: "marvel",
+          apikey: "7cd30d3697116382070d9597a4e7efd2",
+          hash: "9ce76949b277621ebd38b71889f6f53e"
+        }
+      };
+
+      axios.get(
+          `${API_URL}&ts=${config.headers.ts}&hash=${config.headers.hash}&offset=0&limit=100`
+      ).then((result) => {
+        console.log("This is the result", result);
+        this.comics = result.data.data.results;
+        console.log(this.comics);
+      });
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 @import "./assets/global.scss";
@@ -225,72 +188,6 @@ body {
       border-width: 1px;
       width: 80%;
       font-size: 0.875rem;
-    }
-  }
-}
-
-.list {
-  margin: 16rem auto 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 7rem;
-  justify-content: center;
-
-  @include sm {
-    margin: 9rem auto 0 auto;
-    padding: 0 1rem;
-  }
-
-  &__comic {
-    position: relative;
-    width: 14rem;
-    margin: 1rem 1.5rem;
-    transition-timing-function: ease-in-out;
-
-    &:hover &-image {
-      cursor: pointer;
-      animation-name: raise-card;
-      transform: translateY(-0.5rem);
-    }
-
-    &:hover &-title {
-      color: $red;
-    }
-
-    @include sm {
-      width: 9.3rem;
-      margin: 1rem;
-    }
-
-    &-image {
-      height: 21rem;
-      transition: 0.3s;
-      filter: drop-shadow(0px 74px 30px rgba(0, 0, 0, 0.02)) drop-shadow(0px 42px 25px rgba(0, 0, 0, 0.08)) drop-shadow(0px 19px 19px rgba(0, 0, 0, 0.13)) drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.15)) drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.15));
-
-      @include sm {
-        height: 12.5rem;
-      }
-    }
-
-    &-title {
-      font-weight: 600;
-      font-size: 0.875rem;
-      line-height: 120%;
-      color: $black;
-      max-width: 100%;
-
-      @include sm {
-        font-size: 0.8rem;
-      }
-    }
-
-    &-year {
-      background-color: $red;
-      display: inline-block;
-      color: white;
-      padding: 0.2rem 0.4rem;
-      font-size: 0.8rem;
-      margin: 0;
     }
   }
 }
