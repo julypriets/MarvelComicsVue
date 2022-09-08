@@ -42,7 +42,6 @@ export default {
   }),
   created() {
     this.comicId = this.$route.params.id;
-    console.log("Comic Id: ", this.comicId);
     this.fetchComic();
   },
   computed: {
@@ -77,9 +76,7 @@ export default {
       axios.get(
           `${API_URL}&ts=${config.headers.ts}&hash=${config.headers.hash}&offset=0&limit=100`
       ).then((result) => {
-        console.log("This is the comic detail", result);
         this.comic = result.data.data.results[0];
-        console.log(this.comic);
       });
     },
     goToHome() {

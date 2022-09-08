@@ -65,9 +65,7 @@ export default {
       axios.get(
           `${API_URL}&ts=${config.headers.ts}&hash=${config.headers.hash}&offset=0&limit=100`
       ).then((result) => {
-        console.log("This is the result", result);
         this.comics = result.data.data.results;
-        console.log(this.comics);
       });
     }
   }

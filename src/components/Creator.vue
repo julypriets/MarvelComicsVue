@@ -24,7 +24,6 @@ export default {
     creatorData: null
   }),
   created() {
-    console.log(this.creator)
     this.fetchCreator();
   },
   computed: {
@@ -53,9 +52,7 @@ export default {
       axios.get(
           `${API_URL}&ts=${config.headers.ts}&hash=${config.headers.hash}&offset=0&limit=100`
       ).then((result) => {
-        console.log("This is creator detail", result);
         this.creatorData = result.data.data.results[0];
-        console.log(this.creatorData);
       });
     }
   }
