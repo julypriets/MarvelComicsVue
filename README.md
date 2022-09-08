@@ -59,7 +59,3 @@ Los colores se eligieron tomando como referencia la paleta oficial de Marvel.
 Para las fuentes se usó una combinación de [Roboto](https://fonts.google.com/specimen/Roboto?preview.text=roboto&preview.text_type=custom) y [Roboto Condensed](https://fonts.google.com/specimen/Roboto+Condensed?query=roboto+con&preview.text=roboto&preview.text_type=custom).
 
 ![image](https://user-images.githubusercontent.com/33792986/189206991-c8497053-24a1-4082-8c14-cd5e9c0546d0.png)
-
-## 👩🏻‍💻 Repositorio
-
-[GitHub - julypriets/MarvelComicsVue](https://github.com/julypriets/MarvelComicsVue)
