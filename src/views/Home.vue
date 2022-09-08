@@ -9,10 +9,15 @@
       <div class="header__wrapper-background"></div>
     </div>
     <p class="header__subheading">Find your favorites among thousands of stories</p>
-    <input type="text" placeholder="Search" class="header__search">
+    <input
+        v-model="query"
+        type="text"
+        placeholder="Search"
+        class="header__search"
+    >
   </div>
   <ComicList
-      :comics="comics"
+      :comics="resultQuery"
   />
 </template>
 
@@ -27,11 +32,25 @@ export default {
     ComicList
   },
   data: () => ({
-    comics: null
+    comics: null,
+    query: null
   }),
   created() {
-    // fetch on init
     this.fetchData();
+  },
+  computed: {
+    resultQuery() {
+      if (this.query) {
+        return this.comics.filter(item => {
+          return this.query
+              .toLowerCase()
+              .split(" ")
+              .every(c => item.title.toLowerCase().includes(c));
+        })
+      } else {
+        return this.comics;
+      }
+    }
   },
   methods: {
     async fetchData() {
