@@ -2,6 +2,7 @@
   <div class="comic-list">
     <template v-for="comic in comics" class="comic-list">
       <Comic
+          @click="goToComicDetail(comic)"
           :image-src="getComicThumbnail(comic)"
           :title="comic.title"
           :year="getComicYear(comic)"
@@ -28,7 +29,12 @@ export default {
     },
     getComicYear(comic) {
       if (comic.dates) {
-        return new Date(comic.dates[0].date).getFullYear();
+        return new Date(comic.dates[0].date).getFullYear().toString();
+      }
+    },
+    goToComicDetail(comic) {
+      if (comic.id) {
+        this.$router.push(`/comics/${comic.id}`);
       }
     }
   }
